@@ -1,7 +1,9 @@
 const cardForm = document.querySelector('.card-data-form');
-const stepTwoContainer = document.querySelector('.second-step-container');
+const stepTwoContainer = document.querySelector('.confirm-container');
 const nameInputError = document.querySelector('.name-input-error');
 const numberInputError = document.querySelector('.number-input-error');
+const expDateError = document.querySelector('.exp-date-error');
+const cvcError = document.querySelector('.cvc-error');
 const submitButton = document.querySelector(
   '.card-data-form button[type="submit"]'
 );
@@ -93,6 +95,9 @@ const handleCardFormSubmit = (e) => {
 
   validateCardName(formData.get('name'));
   validateCardNnumber(formData.get('card-number'));
+  validateExpMonth(formData.get('card-expiration-month'));
+  validateExpYear(formData.get('card-expiration-year'));
+  validateCvc(formData.get('cvc'));
 
   if (numberOfErrors === 0) {
     submitButton.setAttribute('disabled', 'true');
@@ -170,3 +175,56 @@ const validateCardNnumber = (cardNumber) => {
   numberInput.classList.remove('has-error');
   numberInputError.classList.add('hide');
 };
+
+const validateExpMonth = (expMonth) => {
+  if (expirationMonthInput.value.length > 2) {
+    expirationMonthInput.value = expirationMonthInput.value.slice(0, 2);
+  }
+  if (expMonth.length === 0) {
+    numberOfErrors++;
+    expirationMonthInput.classList.add('has-error');
+    expDateError.classList.remove('hide');
+    expDateError.innerText = "Can't be blank";
+    return;
+  }
+
+  expirationMonthInput.classList.remove('has-error');
+  expDateError.classList.add('hide');
+};
+expirationMonthInput.addEventListener('input', validateExpMonth);
+
+const validateExpYear = (expYear) => {
+  if (expirationYearInput.value.length > 2) {
+    expirationYearInput.value = expirationYearInput.value.slice(0, 2);
+  }
+  if (expYear.length === 0) {
+    numberOfErrors++;
+    expirationYearInput.classList.add('has-error');
+    expDateError.classList.remove('hide');
+    expDateError.innerText = "Can't be blank";
+    return;
+  }
+
+  expirationYearInput.classList.remove('has-error');
+  expDateError.classList.add('hide');
+};
+
+expirationYearInput.addEventListener('input', validateExpYear);
+
+const validateCvc = (cvc) => {
+  if (cvcInput.value.length > 3) {
+    cvcInput.value = cvcInput.value.slice(0, 3);
+  }
+  if (cvc.length === 0) {
+    numberOfErrors++;
+    cvcInput.classList.add('has-error');
+    cvcError.classList.remove('hide');
+    cvcError.innerText = "Can't be blank";
+    return;
+  }
+
+  cvcInput.classList.remove('has-error');
+  cvcError.classList.add('hide');
+};
+
+cvcInput.addEventListener('input', validateCvc);

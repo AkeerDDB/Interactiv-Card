@@ -16,7 +16,8 @@ const numberInput = document.querySelector('#card-number');
 const cardNumber = document.querySelector('.card-number');
 
 const handleNumberInputChange = () => {
-  cardNumber.innerText = numberInput.value;
+  cardNumber.innerText = numberInput.value.slice(0, 19);
+
   if (formIsSubmitted === true) {
     validateCardNnumber(numberInput.value);
   }
@@ -46,11 +47,15 @@ numberInput.addEventListener('input', handleNumberInputChange);
 const expirationMonthInput = document.querySelector(
   '[name="card-expiration-month"]'
 );
+const expMonth = document.querySelector('.month');
+
 const expirationYearInput = document.querySelector(
   '[name="card-expiration-year"]'
 );
+const expYear = document.querySelector('.year');
 
 const handleExpirationMonthInputChange = () => {
+  expMonth.innerText = expirationMonthInput.value.slice(0, 2);
   if (expirationMonthInput.value.length === 2) {
     expirationYearInput.focus();
   }
@@ -60,3 +65,21 @@ expirationMonthInput.addEventListener(
   'input',
   handleExpirationMonthInputChange
 );
+
+const handleExpirationYearInputChange = () => {
+  expYear.innerText = expirationYearInput.value.slice(0, 2);
+  if (expirationYearInput.value.length === 2) {
+    cvcInput.focus();
+  }
+};
+
+expirationYearInput.addEventListener('input', handleExpirationYearInputChange);
+
+const cvcInput = document.querySelector('#cvc');
+const cvc = document.querySelector('.card-back-cvv');
+
+const handleCvcInputChange = () => {
+  cvc.innerText = cvcInput.value.slice(0, 3);
+};
+
+cvcInput.addEventListener('input', handleCvcInputChange);
